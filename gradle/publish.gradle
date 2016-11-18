@@ -1,0 +1,24 @@
+apply plugin: 'maven'
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: mavenRepo) {
+                authentication(userName: mavenUser, password: mavenPassword)
+            }
+            snapshotRepository(url: mavenRepoSnapshots) {
+                authentication(userName: mavenUser, password: mavenPassword)
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
